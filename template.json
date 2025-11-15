@@ -1,0 +1,52 @@
+{
+  "idea analysis": {
+    "title": "string (عنوان فكرة المشروع)",
+    "description": "string (وصف موجز للفكرة)",
+    "industry": "string (الصناعة أو القطاع)",
+    "niche": "string (التخصص الدقيق داخل الصناعة)",
+    "comment": "تعليق موجز على الفكرة وقيمتها المقترحة"
+  },
+  "market_analysis": {
+    "size": "string (large or medium or small)",
+    "demand": "string (high or moderate or low)",
+    "growth": "string (increasing or stable or declining)",
+    "comment": "تعليق موجز على حجم السوق، الطلب، والنمو"
+  },
+  "competitors": {
+    "name": ["أسماء المنافسين الرئيسيين"],
+    "features": ["الميزات الرئيسية التي يقدمها المنافسون"],
+    "count": "string (many or moderate or few)",
+    "strength": "string (strong or average or weak)",
+    "strengths": ["أهم نقاط قوة المنافسين"],
+    "weaknesses": ["أهم نقاط ضعف المنافسين"],
+    "comment": "تعليق موجز على المنافسين وإمكانيات الابتكار"
+  },
+  "audience": {
+    "age_range": "string (min-max)",
+    "country": "string (الدولة أو المنطقة الجغرافية المستهدفة)",
+    "segment": ["القطاع أو شريحة العملاء المستهدفة"],
+    "gender": "string (ذكر or انثى)",
+    "buying_power": "string (good or average or low)",
+    "acceptance_probability": "float (النسبة المئوية لقبول الفكرة من الجمهور المستهدف)",
+    "comment": "تعليق موجز على سلوك الجمهور واستعداده للتبني"
+  },
+  "costs": {
+    "startup": "string (تكلفة بدء المشروع التقريبية)",
+    "running": "string (التكاليف الشهرية التقريبية)",
+    "types": ["أنواع المصاريف: مثل servers, marketing, employees, tools"],
+    "comment": "تعليق موجز على التكاليف والموارد المطلوبة"
+  },
+  "risks": {
+    "possible": ["المخاطر الرئيسية المحتملة"],
+    "comment": "تعليق موجز على المخاطر وكيفية التخفيف منها"
+  },
+  "opportunities": {
+    "possible": ["الفرص الرئيسية المتاحة"],
+    "comment": "تعليق موجز على الفرص وكيفية الاستفادة منها"
+  },
+  "final": {
+    "feasible": "true/false",
+    "confidence": "float (نسبة الثقة في نجاح المشروع)",
+    "summary": "خلاصة وتوصية سريعة حول جدوى الفكرة"
+  }
+}
