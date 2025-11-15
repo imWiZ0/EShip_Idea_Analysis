@@ -21,7 +21,7 @@
   </header>
 
   <nav class="toc">
-    <h2>فهرس </h2>
+    <h2>فهرس المحتويات</h2>
     <ol>
       <li>Idea Overview</li>
       <li>Market Analysis</li>
@@ -149,3 +149,117 @@
   </main>
 </body>
 </html>
+<style>
+  
+    :root{
+    --grad1: #7b2ff7;
+    --grad2: #2bc0ff;
+    --muted: #6b7280;
+    --card-bg: #ffffff;
+    --accent: #ffb86b;
+    --max-width: 900px;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    font-family: 'Cairo','Poppins', sans-serif;
+    margin:0;
+    background: linear-gradient(135deg,var(--grad1),var(--grad2) 60%);
+    color:#111;
+    -webkit-font-smoothing:antialiased;
+    direction: rtl;
+  }
+
+  .cover{
+    padding:48px 24px;
+    text-align:right;
+    color:white;
+    background: linear-gradient(135deg, rgba(14,12,50,0.65), rgba(39,39,84,0.45));
+  }
+  .cover-inner{
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+  .cover h1{
+    font-size:28px;
+    margin:0 0 8px 0;
+    font-weight:700;
+  }
+  .cover .subtitle{
+    opacity:0.9;
+    margin:0 0 16px 0;
+  }
+  .cover .meta{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    justify-content:flex-end;
+    font-size:13px;
+    opacity:0.95;
+  }
+
+  .container{
+    max-width: var(--max-width);
+    margin: 24px auto;
+    padding: 20px;
+    background: transparent;
+  }
+
+  .toc{
+    max-width: var(--max-width);
+    margin: 12px auto;
+    padding: 10px 20px;
+    background: rgba(255,255,255,0.06);
+    color: white;
+    border-radius:8px;
+  }
+  .toc h2{margin:0 0 8px 0}
+  .toc ol{margin:0 0 0 12px;padding-left:12px;color: #f3f4f6}
+
+  .card{
+    background: var(--card-bg);
+    border-radius:10px;
+    padding:18px;
+    margin-bottom:16px;
+    box-shadow: 0 6px 18px rgba(15,23,42,0.08);
+    color: #111827;
+  }
+  .section-title{
+    color: var(--grad1);
+    margin:0 0 12px 0;
+    font-weight:700;
+  }
+
+  .lead{margin:0 0 12px 0;color:var(--muted)}
+
+  .two-col{display:flex;gap:12px;flex-wrap:wrap}
+  .two-col > div{flex:1;min-width:180px}
+
+  .stats-row{display:flex;gap:12px}
+  .stat{flex:1;background: linear-gradient(90deg,#fff 0%, #fff 100%);padding:12px;border-radius:8px;text-align:center}
+  .stat-value{font-weight:700;color:var(--grad1);font-size:16px}
+  .stat-label{font-size:12px;color:var(--muted)}
+
+  .list-compact{columns:2;-webkit-columns:2;list-style: disc;margin-left:18px}
+  .list-inline{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0}
+  .list-inline li{background:#f3f4f6;padding:6px 10px;border-radius:999px;font-size:13px}
+
+  .badge{display:inline-block;background:#f1f5f9;padding:6px 10px;border-radius:8px;margin-left:6px;font-size:13px}
+
+  .split-row{display:flex;gap:12px;flex-wrap:wrap}
+  .half{flex:1;min-width:260px}
+
+  .muted{color:var(--muted);font-size:13px}
+
+  .final{background: linear-gradient(135deg,#fff,#f8fafc);border:1px solid rgba(14,12,50,0.04)}
+
+  .page-footer{margin-top:10px;padding-top:12px;border-top:1px solid rgba(0,0,0,0.04);font-size:12px;color:var(--muted);text-align:center}
+
+  /* print adjustments */
+  @media print{
+    body{background:white}
+    .cover{background:transparent;color:#111}
+    .toc{background:transparent;color:#111}
+    .card{box-shadow:none;border:1px solid #eee}
+  }
+</style>
