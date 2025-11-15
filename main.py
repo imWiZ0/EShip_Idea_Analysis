@@ -1,21 +1,21 @@
 from openai import OpenAI
 import json
+
+from toPdf import convert_to_pdf
+
 json_file = "result.json"
 client = OpenAI(
-  api_key="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"
+  api_key="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"
 )
 
 with open("template.json", "r", encoding="utf-8") as file:
     TEMPLATE = file.read()
-
-project_idea = "نظام ذكاء اصطناعي لتقييم الواجبات وتصحيحها تلقائيًا."
-
-prompt = f"""
-{TEMPLATE}
-"{project_idea}"
-"""
-
-response = client.responses.create(
+def make_prompt(idea):
+    prompt = f"""
+    {TEMPLATE}
+    "{idea}"
+    """
+    response = client.responses.create(
     model="gpt-5",
     input=[
         {
@@ -43,9 +43,11 @@ response = client.responses.create(
             ]
         }
     ]
-)
+    )
+    convertToJsonAndPdf(response.output_text)
+    return response
 
-def convertToJson(output):
+def convertToJsonAndPdf(output):
     if isinstance(output, dict):
         data = output
     else:
@@ -58,5 +60,8 @@ def convertToJson(output):
     with open(json_file, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
     print("The analysis result saved to "+json_file)
+    convert_to_pdf(json.load(open("result.json", "r", encoding="utf-8")))
 
-convertToJson(response.output_text)
+
+
+convert_to_pdf(json.load(open("result.json", "r", encoding="utf-8")))
