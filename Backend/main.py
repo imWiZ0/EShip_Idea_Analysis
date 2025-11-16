@@ -10,9 +10,7 @@ json_file = "result/result.json"
 json_template = "template/template.json"
 pdf_file = "result/result.pdf"
 
-client = OpenAI(
-  api_key="none"
-)
+client = OpenAI()
 
 
 
