@@ -11,7 +11,7 @@ json_template = "template/template.json"
 pdf_file = "result/result.pdf"
 
 client = OpenAI(
-  api_key="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"
+  api_key="none"
 )
 
 
