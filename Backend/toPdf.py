@@ -3,9 +3,9 @@ import json
 from datetime import datetime
 
 
-def convert_to_pdf(data):
+def convert_to_pdf(data,output_path):
     try:
-        output_filename = "result.pdf"        
+        output_filename = output_path  
         html_content = generate_html_from_data(data)
         
         try:

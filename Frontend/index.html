@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>تحليل أفكار ريادة الأعمال</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+            text-align: center;
+            padding: 0 15vw;
+            background: #f0f0f0;
+        }
+        textarea {
+            width: 80%;
+            height: 150px;
+            font-size: 16px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .white_text {
+            color: #363636;
+            font-size: clamp(10px, 2vw, 15px);
+            margin: 10px 0;
+        }
+        p {
+            color: #363636;
+            font-size: clamp(10px, 2vw, 15px);
+            margin: 10px 0;
+        }
+        .head {
+            color: #8134EC;
+            font-size: clamp(12px, 2vw, 20px);
+            margin: 10px 0;
+        }
+        .market {
+            margin: 20px 0;
+            display: flex;
+            justify-content: flex;
+            direction: row;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .item {
+            background-color: rgb(224, 228, 233);
+            border-radius: 15px;
+            padding: 1vw;
+            flex: 1 1 10vw; /* responsive: min-width 250px, flexible */
+            box-shadow: 0 2px 8px rgba(73, 73, 73, 0.3);
+        }
+        .box {
+            justify-items: center;
+            flex: 1 1 100px;
+            background-color: rgb(224, 228, 233);
+            border-radius: 15px;
+            padding: 2vw;
+            margin-top: 20px;
+            box-shadow: 0 2px 8px rgba(73, 73, 73, 0.3);
+        }
+        .boxes {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .circle {
+            width: 7vw;
+            height: 7vw;
+            min-width: 60px;
+            min-height: 60px;
+            max-width: 10vw;
+            max-height: 10vw;
+            border-radius: 50%;
+            background: conic-gradient(#363636 0% var(--percent), #d4d4d4 var(--percent) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin: 0 auto 12px auto;
+            box-shadow: 0 2px 8px rgba(44,192,255,0.13);
+            transition: box-shadow 0.2s, background 0.3s;
+        }
+        .circle::before {
+            content: "";
+            position: absolute;
+            width: 60%;
+            height: 60%; 
+            background: rgb(224, 228, 233);
+            border-radius: 50%;
+        }
+        .inner {
+            position: relative;
+            font-size: 1.3vw;
+            font-weight: bold;
+            color: #8134EC;
+            z-index: 1;
+        }
+        @media (max-width: 700px) {
+            .circle {
+                width: 60px;
+                height: 60px;
+                min-width: 40px;
+                min-height: 40px;
+                max-width: 70px;
+                max-height: 70px;
+            }
+            .inner {
+                font-size: 1.1em;
+            }
+        }
+        button {
+            padding: 14px 36px;
+            border-radius: 8px;
+            font-size: 1.3em;
+            background: #8134EC;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(73, 73, 73, 0.18);
+            transition: background 0.3s, transform 0.2s;
+        }
+        button:hover {
+            background: #8134EC;
+            transform: translateY(-2px) scale(1.04);
+        }
+        .loading-spinner {
+            width: 45px;
+            height: 45px;
+            border: 5px solid #d4d4d4;
+            border-top: 5px solid #4cd964;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    {%if not data and not loading%}
+    <h2 class="head">تقرير تحليل فكرة ريادية</h2>
+    <p>أدخل فكرتك للحصول على تقرير كامل لفكرتك من الذكاء الإصطناعي:</p>
+    <form action="/submitted" method="POST">
+        <textarea name="idea" placeholder="اكتب فكرتك هنا..." required></textarea><br>
+        <button type="submit">تحليل الفكرة</button>
+    </form>
+    {% elif loading %}
+    <h2 class="head">تقرير تحليل فكرة ريادية</h2>
+    <p>فضلا قم بالإنتظار يتم معالجة الفكرة</p>
+    <div class="loading-spinner" style="display: block;"></div>
+    <script>
+        fetch("/waiting", {
+            method: "POST"
+        })
+        .then(response => response.text())
+        .then(html => {
+            document.open();
+            document.write(html);
+            document.close();
+        });
+    </script>
+    {% elif data %}
+    <h2 class="head">تقرير تحليل فكرة ريادية</h2>
+    <form action="/download" method="POST">
+        <button type="download">📥 تحميل ملف التقرير</button>
+    </form>
+    <div class="box" align="right">
+        <p class="white_text"><strong>💡 الفكرة: </strong>{{ data['idea analysis']['title'] }}</p>
+        <p class="white_text"><strong>📝 وصف الفكرة: </strong>{{ data['idea analysis']['description'] }}</p>
+        <p class="white_text"><strong>🏢 القطاع: </strong>{{ data['idea analysis']['title'] }}   -   {{ data['idea analysis']['niche'] }}</p>
+    </div>
+    <p class="white_text" align="right"><strong>تعليق الذكاء الإصطناعي: </strong>{{ data['idea analysis']['comment'] }}</p>
+    <flex class="boxes">
+        <div class="box" style="background-color: rgb(255,255,255,0) !important; box-shadow: none !important;">
+            <h3 class="head" align="center">نسبة قبول العملاء</h3>
+            <div class="circle" style="--percent: {{ data['audience']['acceptance_probability'] }}%;">
+                <p class="inner">{{data['audience']['acceptance_probability']}}%</p>
+            </div>
+        </div>
+        <div class="box" style="background-color: rgb(255,255,255,0) !important; box-shadow: none !important;">
+            <h3 class="head" align="center">نسبة نجاح الفكرة</h3>
+            <div class="circle" style="--percent: {{ data['final']['confidence'] }}%;">
+                <p class="inner">{{data['final']['confidence']}}%</p>
+            </div>
+        </div>
+    </flex>
+    <flex class="market" align="center" direction="row">
+        <div class="item">
+            <p class="head"><strong>الحجم</strong></p>
+            <p>{{ data['market_analysis']['size'] }}</p>
+        </div>
+        <div class="item">
+            <p class="head"><strong>الطلب</strong></p>
+            <p>{{ data['market_analysis']['demand'] }}</p>
+        </div>
+        <div class="item">
+            <p class="head"><strong>التوسع</strong></p>
+            <p>{{ data['market_analysis']['growth'] }}</p>
+        </div>
+    </flex>
+    <p align="right" class="white_text"><strong>تعليق الذكاء الإصطناعي على تحليل السوق: </strong>{{ data['market_analysis']['comment'] }}</p>
+    <flex class="boxes">
+        <div class="box">
+            <h3 class="head" align="right">🏆 أسماء المنافسين حول العالم</h3>
+            {% for competitorname in data['competitors']['name'] %}
+                <p align="right">💠 {{ competitorname }}</p>
+            {% endfor %}
+        </div>
+        <div class="box">
+            <h3 class="head" align="right">⭐ المزايا التي يقدمها المنافسين</h3>
+            {% for competitorfeature in data['competitors']['features'] %}
+                <p align="right">💠 {{ competitorfeature }}</p>
+            {% endfor %}
+        </div>
+    </flex>
+    <flex class="boxes">
+        <div class="box">
+            <h3 class="head" align="right">💪 نقاط قوة المنافسين</h3>
+            {% for strength in data['competitors']['strengths'] %}
+                <p align="right">💠 {{ strength }}</p>
+            {% endfor %}
+        </div>
+        <div class="box">
+            <h3 class="head" align="right">🐌 نقاط ضعف المنافسين</h3>
+            {% for weakness in data['competitors']['weaknesses'] %}
+                <p align="right">💠 {{ weakness }}</p>
+            {% endfor %}
+        </div>
+    </flex>
+    <p align="right" class="white_text"><strong>تعليق الذكاء الإصطناعي على نقاط قوة ونقاط ضعف المنافسين: </strong>{{ data['competitors']['comment'] }}</p>
+    <div class="box">
+        <h3 class="head" align="right">👥 العملاء المستهدفين</h3>
+        <p align="right">العمر: {{ data['audience']['age_range'] }}</p>
+        <p align="right">الدولة: {{ data['audience']['country'] }}</p>
+        <p align="right">الجنس: {{ data['audience']['gender'] }}</p>
+        <p align="right">قوة الشراء: {{ data['audience']['buying_power'] }}</p>
+        <p align="right">نسبة قبول الفكرة: {{ data['audience']['acceptance_probability'] }}</p>
+    </div>
+    <flex class="boxes">
+        <div class="box">
+            <h3 class="head" align="right">🚀 الفرص</h3>
+            {% for opportunities in data['opportunities']['possible'] %}
+                <p align="right">💠 {{ opportunities }}</p>
+            {% endfor %}
+        </div>
+        <div class="box">
+            <h3 class="head" align="right">⚠️ المخاطر</h3>
+            {% for risks in data['risks']['possible'] %}
+                <p align="right">💠 {{ risks }}</p>
+            {% endfor %}
+        </div>
+    </flex>
+    <p class="white_text" align="right"><strong>تعليق الذكاء الإصطناعي حول الفرص: </strong>{{ data['opportunities']['comment'] }}</p>
+    <p class="white_text" align="right"><strong>تعليق الذكاء الإصطناعي حول المخاطر: </strong>{{ data['risks']['comment'] }}</p>
+    <div class="box">
+        <h3 class="head" align="right">💰 التكاليف المتوقعة للمشروع</h3>
+        <p align="right">تكلفة بدء المشروع التقريبية: {{ data['costs']['startup'] }}</p>
+        <p align="right">التكاليف الشهرية التقريبية: {{ data['costs']['running'] }}</p>
+    </div>
+    <div class="box">
+        <h3 class="head" align="right">💰 أنواع التكاليف</h3>
+        {% for costs in data['costs']['types'] %}
+            <p align="right">💠 {{ costs }}</p>
+        {% endfor %}
+    </div>
+    <p class="white_text" align="right"><strong>تعليق الذكاء الإصطناعي حول التكاليف: </strong>{{ data['costs']['comment'] }}</p>
+    <div class="box">
+        <h3 class="head" align="right">📋 الخلاصة والتوصية</h3>
+        <p class="white_text" align="right">{{ data['final']['summary'] }}</p>
+    </div>
+
+    {% endif %}
+    <p>تم العمل عليه من قبل: فهد السيف</p>
+</body>
+</html>

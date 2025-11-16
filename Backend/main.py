@@ -1,14 +1,22 @@
 from openai import OpenAI
 import json
+from flask import Flask, request, send_file, jsonify, render_template
+app = Flask(__name__, template_folder="../Frontend")
+import time
 
 from toPdf import convert_to_pdf
 
-json_file = "result.json"
+json_file = "result/result.json"
+json_template = "template/template.json"
+pdf_file = "result/result.pdf"
+
 client = OpenAI(
   api_key="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"
 )
 
-with open("template.json", "r", encoding="utf-8") as file:
+
+
+with open(json_template, "r", encoding="utf-8") as file:
     TEMPLATE = file.read()
 def make_prompt(idea):
     prompt = f"""
@@ -60,8 +68,34 @@ def convertToJsonAndPdf(output):
     with open(json_file, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
     print("The analysis result saved to "+json_file)
-    convert_to_pdf(json.load(open("result.json", "r", encoding="utf-8")))
+    convert_to_pdf(json.load(open(json_file, "r", encoding="utf-8")), pdf_file)
 
 
+# convert_to_pdf(json.load(open(json_file, "r", encoding="utf-8")), pdf_file)
 
-convert_to_pdf(json.load(open("result.json", "r", encoding="utf-8")))
+@app.route("/", methods=["GET"])
+def home():
+    return render_template("index.html", loading=False)
+
+@app.route("/submitted", methods=["POST"])
+def submitted():
+    global idea
+    idea = request.form.get("idea")
+    if not idea:
+        return render_template("index.html", loading=False)
+
+    return render_template("index.html", loading=True)
+
+@app.route("/waiting", methods=["POST"])
+def waiting():
+    make_prompt(idea)
+    time.sleep(2)
+    data = json.load(open(json_file, "r", encoding="utf-8"))
+    return render_template("index.html", data=data, loading=False)
+
+@app.route('/download', methods=['POST'])
+def download_report():
+    return send_file(pdf_file, as_attachment=True)
+
+if __name__ == "__main__":
+    app.run(debug=True)
