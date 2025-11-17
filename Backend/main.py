@@ -3,6 +3,11 @@ import json
 from flask import Flask, request, send_file, jsonify, render_template
 app = Flask(__name__, template_folder="../Frontend")
 import time
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+print("BASE_DIR =", BASE_DIR)
+print("Files in BASE_DIR:", os.listdir(BASE_DIR))
 
 from toPdf import convert_to_pdf
 
@@ -10,7 +15,9 @@ json_file = "result/result.json"
 json_template = "template/template.json"
 pdf_file = "result/result.pdf"
 
-client = OpenAI()
+client = OpenAI(
+  api_key="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"
+)
 
 
 
